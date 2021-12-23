@@ -19,19 +19,19 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = "Weapon")
+	UPROPERTY(EditAnywhere)
 	int32 WeaponsNum = 4;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Stat")
+	UPROPERTY(EditDefaultsOnly)
 	int32 KillsNum = 7;
 
-	UPROPERTY(EditInstanceOnly, Category = "Health")
+	UPROPERTY(EditInstanceOnly)
 	float Health = 34.1679834;
 
-	UPROPERTY(EditAnywhere, Category = "Health")
+	UPROPERTY(EditAnywhere)
 	bool IsDead = false;
 
-	UPROPERTY(VisibleAnywhere, Category = "Weapon")
+	UPROPERTY(VisibleAnywhere)
 	bool HasWeapon = true;
 
 public:	

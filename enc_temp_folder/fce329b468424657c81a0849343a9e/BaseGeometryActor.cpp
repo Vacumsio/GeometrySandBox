@@ -22,7 +22,7 @@ void ABaseGeometryActor::BeginPlay()
 	
 	//PringStringTypes();
 
-	 PrintTypes();
+	// PrintTypes();
 }
 
 // Called every frame
@@ -36,11 +36,11 @@ void ABaseGeometryActor::Tick(float DeltaTime)
 
 void ABaseGeometryActor::PrintTypes()
 {
-	UE_LOG(LogBaseGeometry, Warning, TEXT("%s"), *GetName());
-	UE_LOG(LogBaseGeometry, Warning, TEXT("WEapons num: %d, kill num %i"), WeaponsNum, KillsNum);
-	UE_LOG(LogBaseGeometry, Warning, TEXT("Health %.f"), Health);
-	UE_LOG(LogBaseGeometry, Warning, TEXT("Is dead %d"), IsDead);
-	UE_LOG(LogBaseGeometry, Warning, TEXT("Has Weapon %d"), static_cast<int>(HasWeapon));
+	UE_LOG(LogTemp, Display, TEXT("WEapons num: %d, kill num %i"), WeaponsNum, KillsNum);
+	UE_LOG(LogTemp, Display, TEXT("Health %.f"), Health);
+	UE_LOG(LogTemp, Display, TEXT("Health %.2f"), Health);
+	UE_LOG(LogTemp, Display, TEXT("Is dead %d"), IsDead);
+	UE_LOG(LogTemp, Display, TEXT("Has Weapon %d"), static_cast<int>(HasWeapon));
 }
 
 /// <summary>
