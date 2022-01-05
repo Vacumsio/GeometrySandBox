@@ -4,7 +4,33 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/StaticMeshComponent.h"
 #include "BaseGeometryActor.generated.h"
+
+UENUM(BlueprintType)
+enum class EMovementType : uint8
+{
+	Sin,
+	Static,
+};
+
+USTRUCT(BlueprintType)
+struct FGeometryData
+{
+	GENERATED_USTRUCT_BODY() 
+
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float Amplitude = 50.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float Freaquency = 2.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	EMovementType MoveType = EMovementType::Static;
+
+	UPROPERTY(EditAnywhere, Category = "Design")
+	FLinearColor Color = FLinearColor::Black;
+};
 
 UCLASS()
 class GEOMETRYSANDBOX_API ABaseGeometryActor : public AActor
@@ -15,9 +41,15 @@ public:
 	// Sets default values for this actor's properties
 	ABaseGeometryActor();
 
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* BaseMesh;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UPROPERTY(EditAnywhere, Category = "Geometry Data flex")
+	FGeometryData GeometryData;
 
 	UPROPERTY(EditAnywhere, Category = "Weapon")
 	int32 WeaponsNum = 4;
@@ -39,6 +71,11 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
+	FVector InitialLocation;
+
+	void PrintTransform();
 	void PrintTypes();
 	void PringStringTypes();
+
+	void SetColor(const FLinearColor& Color);
 };
