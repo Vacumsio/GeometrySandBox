@@ -15,7 +15,7 @@ ABaseGeometryActor::ABaseGeometryActor()
 	PrimaryActorTick.bCanEverTick = true;
 
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>("BaseMesh");
-	
+
 	SetRootComponent(BaseMesh);
 
 }
@@ -31,8 +31,8 @@ void ABaseGeometryActor::BeginPlay()
 
 	GetWorldTimerManager().SetTimer(TimerHandler, this, &ABaseGeometryActor::OnTimerFired, GeometryData.TimerRate, true);
 
-	//SetColor(GeometryData.Color);
-	
+	SetColor(GeometryData.Color);
+
 	//PringStringTypes();
 
 	//PrintTypes();
@@ -43,25 +43,7 @@ void ABaseGeometryActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	switch (GeometryData.MoveType)
-	{
-		case EMovementType::Sin:
-		{
-			//z = z0 + amplitude * sin(freq * t);
-			FVector CurrentLocation = GetActorLocation();
-			float time = GetWorld()->GetTimeSeconds();
-			CurrentLocation.Z = InitialLocation.Z + GeometryData.Amplitude * FMath::Sin(GeometryData.Freaquency * time);
-
-			SetActorLocation(CurrentLocation);
-		}
-			break;
-		case EMovementType::Static:
-			break;
-		default:
-			break;
-	}
-
-	
+	HandleMovement();
 }
 
 void ABaseGeometryActor::PrintTransform()
@@ -105,12 +87,16 @@ void ABaseGeometryActor::PringStringTypes()
 	FString Stat = FString::Printf(TEXT(" \n== All stat \n %s \n %s \n %s"), *WeaponNumStr, *HealthStr, *IsDeadStr);
 	UE_LOG(LogBaseGeometry, Warning, TEXT("%s"), *Stat);
 
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, Name);
-	GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Cyan, Stat, true, FVector2D(1.5f, 1.5f));
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, Name);
+		GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Cyan, Stat, true, FVector2D(1.5f, 1.5f));
+	}
 }
 
 void ABaseGeometryActor::SetColor(const FLinearColor& Color)
 {
+	if (!BaseMesh) return;
 	UMaterialInstanceDynamic* DynMaterial = BaseMesh->CreateAndSetMaterialInstanceDynamic(0);
 	if (DynMaterial)
 	{
@@ -134,6 +120,31 @@ void ABaseGeometryActor::OnTimerFired()
 		UE_LOG(LogBaseGeometry, Error, TEXT("Timer have been stopped"));
 
 	}
-	
+
+}
+
+void ABaseGeometryActor::HandleMovement()
+{
+	switch (GeometryData.MoveType)
+	{
+	case EMovementType::Sin:
+	{
+		//z = z0 + amplitude * sin(freq * t);
+		FVector CurrentLocation = GetActorLocation();
+		if (GetWorld())
+		{
+			float time = GetWorld()->GetTimeSeconds();
+			CurrentLocation.Z = InitialLocation.Z + GeometryData.Amplitude * FMath::Sin(GeometryData.Freaquency * time);
+
+			SetActorLocation(CurrentLocation);
+		}
+
+	}
+	break;
+	case EMovementType::Static:
+		break;
+	default:
+		break;
+	}
 }
 

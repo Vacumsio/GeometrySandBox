@@ -47,6 +47,8 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* BaseMesh;
 
+	void SetGeometry(const FGeometryData& Data) { GeometryData = Data; }
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -87,4 +89,6 @@ private:
 	void SetColor(const FLinearColor& Color);
 
 	void OnTimerFired();
+
+	void HandleMovement();
 };
