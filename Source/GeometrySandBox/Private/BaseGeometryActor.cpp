@@ -38,6 +38,12 @@ void ABaseGeometryActor::BeginPlay()
 	//PrintTypes();
 }
 
+void ABaseGeometryActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	UE_LOG(LogBaseGeometry, Error, TEXT("Actor is dead: %s"), *GetName());
+	Super::EndPlay(EndPlayReason);
+}
+
 // Called every frame
 void ABaseGeometryActor::Tick(float DeltaTime)
 {
@@ -113,12 +119,15 @@ void ABaseGeometryActor::OnTimerFired()
 		UE_LOG(LogBaseGeometry, Warning, TEXT("Color set up to: %s"), *NewColor.ToString());
 
 		SetColor(NewColor);
+
+		OnColorChanged.Broadcast(NewColor, GetName());
 	}
 	else
 	{
 		GetWorldTimerManager().ClearTimer(TimerHandler);
 		UE_LOG(LogBaseGeometry, Error, TEXT("Timer have been stopped"));
 
+		OnTimerFinished.Broadcast(this);
 	}
 
 }
@@ -138,9 +147,8 @@ void ABaseGeometryActor::HandleMovement()
 
 			SetActorLocation(CurrentLocation);
 		}
-
 	}
-	break;
+		break;
 	case EMovementType::Static:
 		break;
 	default:
