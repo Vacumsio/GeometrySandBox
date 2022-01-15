@@ -12,14 +12,14 @@ struct FGeometryPayload
 {
 	GENERATED_USTRUCT_BODY()
 
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<ABaseGeometryActor> GeometryClass;
+		UPROPERTY(EditAnywhere)
+		TSubclassOf<ABaseGeometryActor> GeometryClass;
 
 	UPROPERTY(EditAnywhere)
-	FGeometryData Data;
+		FGeometryData Data;
 
 	UPROPERTY(EditAnywhere)
-	FTransform InitialTransform;
+		FTransform InitialTransform;
 };
 
 
@@ -27,22 +27,22 @@ UCLASS()
 class GEOMETRYSANDBOX_API AGeometryHubActor : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AGeometryHubActor();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<ABaseGeometryActor> GeometryClass;
 
 	UPROPERTY(EditAnywhere)
-	TArray<FGeometryPayload> GeometryPayloads;
+		TSubclassOf<ABaseGeometryActor> GeometryClass;
 
-public:	
+	UPROPERTY(EditAnywhere)
+		TArray<FGeometryPayload> GeometryPayloads;
+
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -52,6 +52,6 @@ private:
 	void DoActorSpawn3();
 
 	UFUNCTION()
-	void OnColorChanged(const FLinearColor& Color, const FString& Name);
+		void OnColorChanged(const FLinearColor& Color, const FString& Name);
 	void OnTimerFinished(AActor* Actor);
 };

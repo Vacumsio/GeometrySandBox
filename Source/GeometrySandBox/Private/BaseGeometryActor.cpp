@@ -148,7 +148,7 @@ void ABaseGeometryActor::HandleMovement()
 			SetActorLocation(CurrentLocation);
 		}
 	}
-		break;
+	break;
 	case EMovementType::Static:
 		break;
 	default:
